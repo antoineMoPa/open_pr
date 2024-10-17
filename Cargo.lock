@@ -111,17 +111,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "git_branchless_prs"
-version = "0.1.0"
-dependencies = [
- "git2",
- "open",
- "serde",
- "tokio",
- "toml",
-]
-
-[[package]]
 name = "hashbrown"
 version = "0.15.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -301,6 +290,17 @@ dependencies = [
  "is-wsl",
  "libc",
  "pathdiff",
+]
+
+[[package]]
+name = "open_pr"
+version = "0.1.0"
+dependencies = [
+ "git2",
+ "open",
+ "serde",
+ "tokio",
+ "toml",
 ]
 
 [[package]]

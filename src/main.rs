@@ -7,7 +7,6 @@ use serde::{Deserialize, Serialize};
 struct Config {
     default_branch: String,
     owner: String,
-    #[default = "main"]
     repo_name: String,
 }
 
