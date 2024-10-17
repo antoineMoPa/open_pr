@@ -18,8 +18,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut owner = String::new();
     let mut repo_name = String::new();
 
-
-
     // Check if config already defines owner and repo_name
     let config_path = format!("{}/.git/open_pr.toml", repo_path);
     if std::fs::metadata(&config_path).is_ok() {
@@ -27,6 +25,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let config: Config = toml::from_str(&config_str)?;
         owner = config.owner;
         repo_name = config.repo_name;
+        default_branch = config.default_branch;
         println!("Owner: {}", owner);
         println!("Repository Name: {}", repo_name);
         println!("Default Branch: {}", default_branch);
