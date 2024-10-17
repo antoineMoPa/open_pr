@@ -1,3 +1,4 @@
+use core::fmt;
 use git2::Repository;
 use open;
 use toml;
@@ -10,6 +11,16 @@ struct Config {
     repo_name: String,
 }
 
+impl fmt::Display for Config {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "Owner: {}\nRepository Name: {}\nDefault Branch: {}",
+            self.owner, self.repo_name, self.default_branch
+        )
+    }
+}
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // find git project root
     let repo = Repository::discover(".")?;
@@ -20,9 +31,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config = match std::fs::read_to_string(&config_path) {
         Ok(config_str) => {
             let config: Config = toml::from_str(&config_str)?;
-            println!("Owner: {}", config.owner);
-            println!("Repository Name: {}", config.repo_name);
-            println!("Default Branch: {}", config.default_branch);
+            println!("{}", config);
             println!("You can tweak this configuration in .git/open_pr.toml");
             config
         }
