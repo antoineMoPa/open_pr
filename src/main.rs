@@ -1,8 +1,9 @@
 use core::fmt;
 use git2::Repository;
 use open;
-use toml;
 use serde::{Deserialize, Serialize};
+use std::io;
+use toml;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Config {
@@ -21,6 +22,14 @@ impl fmt::Display for Config {
     }
 }
 
+fn get_user_input() -> String {
+    let mut input = String::new();
+    io::stdin()
+        .read_line(&mut input)
+        .expect("Failed to read line");
+    input.trim().to_string()
+}
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // find git project root
     let repo = Repository::discover(".")?;
@@ -36,16 +45,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             config
         }
         Err(_) => {
-            let mut owner = String::new();
-            let mut repo_name = String::new();
-            let mut default_branch = String::new();
+            println!(
+                "Enter the owner of the repository (The \"org\" in github.com/org/reponame): "
+            );
+            let owner = get_user_input();
 
-            println!("Enter the owner of the repository (The \"org\" in github.com/org/reponame): ");
-            std::io::stdin().read_line(&mut owner).unwrap();
             println!("Enter the repository name: (The \"reponame\" in github.com/org/reponame): ");
-            std::io::stdin().read_line(&mut repo_name).unwrap();
+            let repo_name = get_user_input();
+
             println!("Enter the default branch (usually main or master): ");
-            std::io::stdin().read_line(&mut default_branch).unwrap();
+            let default_branch = get_user_input();
 
             let config = Config {
                 owner: owner.trim().to_string(),
